@@ -67,6 +67,8 @@ $token = $_SESSION['token'];
         if (userIsAdmin($conn)) {
             $admin = 1;
             $color = $_POST['color'];
+        } else {
+            $admin = 0;
         }
         $conn->query(
             "INSERT INTO `entries`(`email`, `color`, `admin`, `text`) 
