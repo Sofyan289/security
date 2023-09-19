@@ -63,8 +63,9 @@ $token = $_SESSION['token'];
         $email = $_POST['email'];
         $text = $_POST['text'];
         $color = 'red';
-        $admin = isset($_POST['admin']) ? 1 : 0;
+    
         if (userIsAdmin($conn)) {
+            $admin = 1;
             $color = $_POST['color'];
         }
         $conn->query(
