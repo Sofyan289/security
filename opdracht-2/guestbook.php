@@ -83,7 +83,7 @@ $token = $_SESSION['token'];
         print ": " . $row['text'] . "</div><br/>";
     }
 
-    if(filter_var($POST['email'], FILTER_VALIDATE_EMAIL)) {
+    if(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         echo "Dit is een valide email adress.";
     } else {
         echo "Dit is een invalide email adres.";
