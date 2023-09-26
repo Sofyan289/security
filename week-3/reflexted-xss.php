@@ -36,7 +36,7 @@ try {
 <body>
 <div class="body-container">
     <h1 class="heading">Gastenboek 'De lekkage'</h1>
-    <form action="reflected-xss.php">
+    <form action="reflexted-xss.php">
         Email: <input type="email" name="email"><br/>
         <input type="hidden" value="red" name="color">
         Bericht: <textarea name="text" minlength="4"></textarea><br/>
