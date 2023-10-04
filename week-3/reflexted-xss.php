@@ -7,10 +7,12 @@ $conn;
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$db", $username, $password);
 } catch (Exception $e) {
-    die("Failed to open database connection, did you start it and configure the credentials properly?");
+    die("Failed to open database connection, 
+    did you start it and configure the credentials properly?");
 }
 ?>
 <html>
+
 <head>
     <title>Leaky-Guestbook</title>
     <style>
@@ -33,55 +35,57 @@ try {
         }
     </style>
 </head>
+
 <body>
-<div class="body-container">
-    <h1 class="heading">Gastenboek 'De lekkage'</h1>
-    <form action="reflexted-xss.php">
-        Email: <input type="email" name="email"><br/>
-        <input type="hidden" value="red" name="color">
-        Bericht: <textarea name="text" minlength="4"></textarea><br/>
-        <?php if (userIsAdmin($conn)) {
-            echo "<input type\"hidden\" name=\"admin\" value=" . $_COOKIE['admin'] . "\">";
-        } ?>
-        <input type="submit">
-    </form>
-    <script></script>
-    <hr/>
-    
-    <?php
-    if (isset($_GET['email']) && isset($_GET['text'])) {
-        print "<div style=\"color: red\">Email: " . $_GET['email'];
-        print ": " . $_GET['text'] . "</div><br/>";
-    }
+    <div class="body-container">
+        <h1 class="heading">Gastenboek 'De lekkage'</h1>
+        <form action="reflexted-xss.php">
+            Email: <input type="email" name="email"><br />
+            <input type="hidden" value="red" name="color">
+            Bericht: <textarea name="text" minlength="4"></textarea><br />
+            <?php if (userIsAdmin($conn)) {
+                echo "<input type\"hidden\" name=\"admin\" value=" . $_COOKIE['admin'] . "\">";
+            } ?>
+            <input type="submit">
+        </form>
+        <script></script>
+        <hr />
 
-
-    $result = $conn->query("SELECT `email`, `text`, `color`, `admin` FROM `entries`");
-    foreach ($result as $row) {
-        print "<div style=\"color: " . $row['color'] . "\">Email: " . $row['email'];
-        if ($row['admin']) {
-            print '&#9812;';
+        <?php
+        if (isset($_GET['email']) && isset($_GET['text'])) {
+            print "<div style=\"color: red\">Email: " . $_GET['email'];
+            print ": " . $_GET['text'] . "</div><br/>";
         }
-        print ": " . $row['text'] . "</div><br/>";
-    }
 
 
-    function userIsAdmin($conn)
-    {
-        if (isset($_COOKIE['admin'])) {
-            $adminCookie = $_COOKIE['admin'];
+        $result = $conn->query("SELECT `email`, `text`, `color`, `admin` FROM `entries`");
+        foreach ($result as $row) {
+            print "<div style=\"color: " . $row['color'] . "\">Email: " . $row['email'];
+            if ($row['admin']) {
+                print '&#9812;';
+            }
+            print ": " . $row['text'] . "</div><br/>";
+        }
 
-            $result = $conn->query("SELECT cookie FROM `admin_cookies`");
 
-            foreach ($result as $row) {
-                if ($adminCookie === $row['cookie']) {
-                    return true;
+        function userIsAdmin($conn)
+        {
+            if (isset($_COOKIE['admin'])) {
+                $adminCookie = $_COOKIE['admin'];
+
+                $result = $conn->query("SELECT cookie FROM `admin_cookies`");
+
+                foreach ($result as $row) {
+                    if ($adminCookie === $row['cookie']) {
+                        return true;
+                    }
                 }
             }
+            return false;
         }
-        return false;
-    }
 
-    ?>
-</div>
+        ?>
+    </div>
 </body>
+
 </html>
